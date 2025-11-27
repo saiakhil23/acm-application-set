@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    velero.io/exclude-from-backup: 'true'
+  name: app4-local-cluster
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: akhil
+    server: https://api.ocp4.imss.work:6443
+  project: default
+  sources:
+    - path: kubernetes/development
+      repoURL: https://github.com/saiakhil23/solar-system.git
+      targetRevision: main
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=false
